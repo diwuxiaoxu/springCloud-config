@@ -1,0 +1,38 @@
+server:
+  port: 80
+
+eureka:
+  client:
+    register-with-eureka: true
+    service-url:
+     defaultZone: http://eureka7001.com:7001/eureka/
+
+spring:
+  application:
+    name: cloud-provider-hystrix-order
+
+feign:
+  hystrix:
+    enabled: true
+
+#=====================设置超时时间===========
+# 使用Feign调用接口分两层，ribbon的调用和hystrix的调用，所以ribbon的超时时间和Hystrix的超时时间的结合就是Feign的超时时间
+#       ribbon的超时时间 < hystrix的超时时间
+
+
+#hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 9000
+
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
+
